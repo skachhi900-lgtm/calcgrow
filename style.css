@@ -1,4 +1,4 @@
-/* Modern Pro Styling for CalcGrow */
+/* App Style Design */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 body {
@@ -9,115 +9,138 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
     color: #333;
 }
 
 header {
     text-align: center;
-    margin-bottom: 30px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    width: 90%;
-    max-width: 600px;
+    margin-bottom: 20px;
 }
 
 h1 {
     margin: 0;
     color: #2c3e50;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
 }
 
 .tagline {
     color: #7f8c8d;
-    margin-top: 10px;
-    font-size: 1.1rem;
+    margin-top: 5px;
+    font-size: 1rem;
 }
 
-/* 3D Card Style */
+/* MENU GRID (Dashboard) */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 40px;
+}
+
+.menu-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    border: 2px solid transparent;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    border-color: #4facfe;
+    color: #4facfe;
+}
+
+/* Calculator Container */
 .container {
     background: white;
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     width: 90%;
-    max-width: 450px;
-    margin-bottom: 30px;
+    max-width: 400px;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.4s ease-in-out;
 }
 
-.container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Back Button */
+.back-btn {
+    background: transparent;
+    color: #7f8c8d;
+    border: 1px solid #bdc3c7;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    width: auto;
+    margin-bottom: 15px;
+    margin-top: 0;
+    box-shadow: none;
 }
 
 h2 {
     color: #34495e;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     margin-bottom: 20px;
     border-bottom: 2px solid #f0f2f5;
     padding-bottom: 15px;
 }
 
-/* Stylish Inputs */
+/* Inputs & Buttons */
 input, select {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     margin: 10px 0;
     border: 2px solid #eef2f7;
-    border-radius: 12px;
+    border-radius: 10px;
     box-sizing: border-box;
     font-size: 16px;
     background-color: #f9fbfd;
-    transition: all 0.3s;
 }
 
 input:focus {
     border-color: #4facfe;
-    background-color: #fff;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
 }
 
-/* Shining Blue Buttons */
 button {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     margin-top: 15px;
     background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     color: white;
     border: none;
-    border-radius: 12px;
-    font-size: 18px;
+    border-radius: 10px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-button:active {
-    transform: scale(0.98);
-}
-
-/* Result Box */
 div[id$="Result"] {
     margin-top: 20px;
     font-weight: 700;
     color: #27ae60;
-    font-size: 1.2rem;
-    padding: 15px;
     background: #eafaf1;
-    border-radius: 10px;
-    border: 1px dashed #27ae60;
+    padding: 10px;
+    border-radius: 8px;
 }
 
-/* Footer */
 footer {
-    margin-top: 40px;
-    margin-bottom: 20px;
+    margin-top: 30px;
     color: #95a5a6;
-    font-size: 0.9rem;
+    font-
+        size: 0.8rem;
 }
