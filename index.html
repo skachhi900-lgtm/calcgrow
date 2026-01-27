@@ -87,16 +87,31 @@
       <div id="ageResult"></div>
     </div>
   </section>
-
-  <section id="youtube" class="container" style="display:none;">
+<section id="youtube" class="container" style="display:none;">
     <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
-    <h2>YouTube Money Calculator</h2>
+    <h2>YouTube Earning Calculator</h2>
+    
     <div class="calculator">
-      <input type="number" id="ytViews" placeholder="Daily Views">
-      <button onclick="calculateYouTube()">Estimated Earnings</button>
-      <div id="ytResult"></div>
+        <label>Video Link or Handle (@name):</label>
+        <div style="display: flex; gap: 5px;">
+            <input type="text" id="ytInput" placeholder="Paste Link here...">
+            <button onclick="fetchYoutubeData()" style="background: #ff0000; color: white;">🔍 Check</button>
+        </div>
+        <p id="loadingMsg" style="font-size: 12px; color: #666; display: none;">Data aa raha hai...</p>
+
+        <hr style="margin: 20px 0; border-top: 1px solid #eee;">
+
+        <label>Total Views:</label>
+        <input type="number" id="ytViews" placeholder="Views apne aap aayenge">
+        
+        <label>RPM ($ per 1k views):</label>
+        <input type="number" id="ytRPM" placeholder="Default: 0.5" value="0.5">
+
+        <button onclick="calculateYoutube()">Calculate Earning 💰</button>
+        <div id="ytResult"></div>
     </div>
-  </section>
+</secti
+  on>
 
   <section id="insta" class="container" style="display:none;">
     <button class="back-btn" onclick="goHome()">⬅ Back to Menu</button>
