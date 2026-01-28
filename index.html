@@ -99,106 +99,79 @@
       <button onclick="calculateAge()">Calculate Age</button>
       <div id="ageResult"></div>
     </div>
-  </section>
-<section id="youtube" class="container" style="display:none; max-width: 800px; margin: auto; font-family: 'Poppins', sans-serif;">
+    <section id="youtube" class="container" style="display:none; max-width: 800px; margin: auto; font-family: 'Poppins', sans-serif;">
     
     <button class="back-btn" onclick="goHome()" style="margin-bottom: 20px;">⬅ Back to Menu</button>
 
-    <style>
-        .mc-container { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
-        .mc-header { text-align: center; margin-bottom: 30px; }
-        .mc-input-group { background: #f9fafb; padding: 10px; border-radius: 12px; border: 1px solid #e5e7eb; display: flex; gap: 10px; }
-        .mc-btn { background: #4F46E5; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
+    <div class="mc-container" style="background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
         
-        /* Tabs Design */
-        .mc-tabs { display: flex; background: #f3f4f6; border-radius: 10px; padding: 5px; margin: 20px 0; }
-        .mc-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 8px; font-weight: 500; color: #6b7280; transition: 0.3s; }
-        .mc-tab.active { background: #4F46E5; color: white; shadow: 0 2px 5px rgba(0,0,0,0.1); }
-
-        /* Sliders */
-        .mc-slider-box { margin-bottom: 25px; }
-        .mc-label-row { display: flex; justify-content: space-between; font-weight: 600; color: #374151; margin-bottom: 10px; }
-        .mc-val { color: #4F46E5; font-weight: 700; }
-        input[type=range] { width: 100%; height: 6px; background: #e0e7ff; border-radius: 5px; -webkit-appearance: none; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #4F46E5; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer; }
-
-        /* Result Section */
-        .mc-result-box { background: #f8fafc; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-top: 30px; }
-        .mc-big-money { font-size: 36px; font-weight: 800; color: #4F46E5; margin: 10px 0; }
-        .mc-breakdown { display: flex; justify-content: space-between; margin-top: 15px; border-top: 1px solid #e5e7eb; padding-top: 15px; font-size: 14px; }
-    </style>
-
-    <div class="mc-container">
-        <div class="mc-header">
-            <h2 style="margin:0;">YouTube Revenue Calculator</h2>
-            <p style="color:#666; font-size:14px;">Advanced estimation based on RPM, Ads & Premium.</p>
+        <div style="text-align: center; margin-bottom: 25px;">
+            <h2 style="margin:0; color: #1f2937;">YouTube Revenue Calculator</h2>
+            <p style="color:#666; font-size:14px; margin-top:5px;">Analyze Video or Channel Earnings</p>
         </div>
 
-        <div class="mc-input-group">
-            <input type="text" id="ytInput" placeholder="Paste YouTube Video or Channel URL" style="border:none; bg:transparent; flex:1; outline:none;">
-            <button onclick="fetchYoutubeData()" style="background:#4F46E5; color:white; border:none; padding:8px 20px; border-radius:8px;">Check</button>
-        </div>
-
-        <div class="mc-tabs">
-            <div class="mc-tab active" onclick="setTimeScale('daily', this)">Daily</div>
-            <div class="mc-tab" onclick="setTimeScale('weekly', this)">Weekly</div>
-            <div class="mc-tab" onclick="setTimeScale('monthly', this)">Monthly</div>
-            <div class="mc-tab" onclick="setTimeScale('annual', this)">Annual</div>
-        </div>
-
-        <div class="mc-slider-box">
-            <div class="mc-label-row"><span>Views</span> <span id="valViews" class="mc-val">10,000</span></div>
-            <input type="range" id="slViews" min="1000" max="5000000" step="1000" value="10000" oninput="updateMcCalc()">
-        </div>
-
-        <div class="mc-slider-box">
-            <div class="mc-label-row"><span>CPM (USD)</span> <span id="valCPM" class="mc-val">$5.00</span></div>
-            <input type="range" id="slCPM" min="0.5" max="50" step="0.5" value="5" oninput="updateMcCalc()">
-        </div>
-
-        <div class="mc-slider-box">
-            <div class="mc-label-row"><span>Monetized Playback Rate (%)</span> <span id="valPlayback" class="mc-val">90%</span></div>
-            <input type="range" id="slPlayback" min="0" max="100" value="90" oninput="updateMcCalc()">
-            <p style="font-size:11px; color:#999; margin:2px 0;">Percentage of views that show ads.</p>
-        </div>
-
-        <hr style="border:0; border-top:1px dashed #ddd; margin: 20px 0;">
-
-        <div class="mc-slider-box">
-            <div class="mc-label-row"><span>Premium Watch Time Share (%)</span> <span id="valPremShare" class="mc-val">20%</span></div>
-            <input type="range" id="slPremShare" min="0" max="50" value="20" oninput="updateMcCalc()">
-        </div>
-
-        <div class="mc-slider-box">
-            <div class="mc-label-row"><span>Premium RPM (USD)</span> <span id="valPremRPM" class="mc-val">$10.00</span></div>
-            <input type="range" id="slPremRPM" min="1" max="50" value="10" oninput="updateMcCalc()">
-        </div>
-
-        <div class="mc-result-box">
-            <div style="text-align:center;">
-                <span id="timeLabel" style="text-transform:uppercase; font-size:12px; font-weight:bold; color:#888;">ESTIMATED DAILY EARNINGS</span>
-                <div class="mc-big-money">$<span id="totalMoney">0.00</span></div>
-                <div style="color:#666;">≈ ₹<span id="totalRupee">0.00</span> INR</div>
-            </div>
-
-            <div class="mc-breakdown">
-                <div>
-                    <div style="font-size:12px; color:#888;">Ads Income</div>
-                    <div style="font-weight:bold; color:#333;">$<span id="adIncome">0.00</span></div>
-                </div>
-                <div>
-                    <div style="font-size:12px; color:#888;">Premium Income</div>
-                    <div style="font-weight:bold; color:#333;">$<span id="premIncome">0.00</span></div>
-                </div>
-                <div>
-                    <div style="font-size:12px; color:#888;">Effective RPM</div>
-                    <div style="font-weight:bold; color:#333;">$<span id="effRPM">0.00</span></div>
-                </div>
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 15px; border: 2px solid #e5e7eb; margin-bottom: 20px;">
+            <label style="font-weight:bold; font-size:12px; color:#666; display:block; margin-bottom:5px;">PASTE LINK OR HANDLE (@name)</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="ytInput" placeholder="ex: youtube.com/watch?v=... or @ChannelName" 
+                       style="border:none; background:white; padding: 12px; border-radius:8px; width:100%; outline:none; font-size:15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+                <button onclick="fetchYoutubeData()" style="background:#4F46E5; color:white; border:none; padding:0 25px; border-radius:8px; font-weight:bold; cursor:pointer;">GO</button>
             </div>
         </div>
-    </d
-      iv>
-</section>
+
+        <div id="profileSection" style="display:none; align-items: center; gap: 15px; background: #e0e7ff; padding: 15px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #c7d2fe;">
+            <img id="channelImg" src="" style="width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <div>
+                <h3 id="channelName" style="margin:0; font-size:16px; color:#3730a3;">Channel Name</h3>
+                <p id="videoTitle" style="margin:0; font-size:12px; color:#5c5b5b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">Video Title Here</p>
+            </div>
+        </div>
+
+        <div class="mc-tabs" style="display: flex; background: #f3f4f6; border-radius: 10px; padding: 5px; margin-bottom: 25px;">
+            <div class="mc-tab active" onclick="setTimeScale('daily', this)" style="flex:1; padding:10px; text-align:center; cursor:pointer; border-radius:8px; font-weight:500; color:#6b7280;">Daily</div>
+            <div class="mc-tab" onclick="setTimeScale('weekly', this)" style="flex:1; padding:10px; text-align:center; cursor:pointer; border-radius:8px; font-weight:500; color:#6b7280;">Weekly</div>
+            <div class="mc-tab" onclick="setTimeScale('monthly', this)" style="flex:1; padding:10px; text-align:center; cursor:pointer; border-radius:8px; font-weight:500; color:#6b7280;">Monthly</div>
+            <div class="mc-tab" onclick="setTimeScale('annual', this)" style="flex:1; padding:10px; text-align:center; cursor:pointer; border-radius:8px; font-weight:500; color:#6b7280;">Annual</div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:600; font-size:14px; color:#374151; margin-bottom:8px;">
+                <span>Views</span> <span id="valViews" style="color:#4F46E5;">0</span>
+            </div>
+            <input type="range" id="slViews" min="0" max="10000000" step="100" value="0" style="width:100%; accent-color:#4F46E5; height:6px;" oninput="updateMcCalc()">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:600; font-size:14px; color:#374151; margin-bottom:8px;">
+                <span>CPM (USD)</span> <span id="valCPM" style="color:#4F46E5;">$0.00</span>
+            </div>
+            <input type="range" id="slCPM" min="0" max="50" step="0.1" value="0" style="width:100%; accent-color:#4F46E5; height:6px;" oninput="updateMcCalc()">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:600; font-size:14px; color:#374151; margin-bottom:8px;">
+                <span>Monetized Playback (%)</span> <span id="valPlayback" style="color:#4F46E5;">50%</span>
+            </div>
+            <input type="range" id="slPlayback" min="0" max="100" value="50" style="width:100%; accent-color:#4F46E5; height:6px;" oninput="updateMcCalc()">
+        </div>
+
+        <div style="background: #1f2937; color: white; padding: 25px; border-radius: 16px; text-align: center; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <p id="timeLabel" style="margin:0; font-size:12px; color:#9ca3af; letter-spacing:1px; text-transform:uppercase;">ESTIMATED EARNINGS</p>
+            <h1 style="margin: 10px 0; font-size: 38px; color: #4ade80;">$<span id="totalMoney">0.00</span></h1>
+            <p style="margin:0; color:#d1d5db; font-size:14px;">≈ ₹<span id="totalRupee">0.00</span> INR</p>
+            
+            <div style="display:flex; justify-content:space-between; margin-top:20px; padding-top:15px; border-top:1px solid #374151; font-size:13px; color:#9ca3af;">
+                <span>Ads: $<span id="adIncome">0</span></span>
+                <span>Premium: $<span id="premIncome">0</span></span>
+            </div>
+        </div>
+
+        <input type="hidden" id="slPremShare" value="20">
+        <input type="hidden" id="slPremRPM" value="10">
+    </div>
+ 
+    </section>
+  </section
     <h2>Instagram Earnings Calculator</h2>
     <div class="calculator">
       <input type="number" id="instaFollowers" placeholder="Number of Followers">
