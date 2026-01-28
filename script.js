@@ -140,7 +140,8 @@ async function fetchYoutubeData() {
                 // Note: Channel View Count lifetime hota hai, isliye hum slider ko 
                 // thoda adjust karte hain ya user ko set karne dete hain.
                 // Abhi ke liye hum Total Views dikha kar slider set karenge.
-                let dailyEst = Math.round(stats.viewCount / 1000); // Rough estimate
+                let dailyBot = Math.round(stats.viewCount / 365); // Approx 1 year average
+              // Rough estimate
                 document.getElementById('slViews').value = stats.viewCount > 50000 ? 50000 : stats.viewCount; // Cap for daily slider
                 document.getElementById('slCPM').value = 2.0;
             }
