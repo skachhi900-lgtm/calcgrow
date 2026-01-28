@@ -110,7 +110,7 @@ async function fetchYoutubeData() {
         if (data.items && data.items.length > 0) {
             viewsInput.value = data.items[0].statistics.viewCount;
             calculateYoutube(); // Auto calculate
-            alert("Success! Data mil gaya ✅");
+            
         } else {
             alert("Data nahi mila. (Link check karein)");
         }
