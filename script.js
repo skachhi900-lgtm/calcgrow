@@ -18,13 +18,28 @@ function calculateInsta() {
 
 /* --- FINANCE --- */
 function calculateEMI() {
-    const p = document.getElementById('loanAmount').value;
-    const r = document.getElementById('interestRate').value / 1200;
-    const n = document.getElementById('loanTenure').value * 12;
-    if(p && n) {
-        const emi = p * r * (Math.pow(1+r, n) / (Math.pow(1+r, n)-1));
-        document.getElementById('emiResult').innerText = "₹" + emi.toFixed(0);
-    }
+  let P = document.getElementById("loan").value;
+  let R = document.getElementById("rate").value / 12 / 100;
+  let N = document.getElementById("time").value * 12;
+
+  if (P === "" || R === 0 || N === 0) {
+    alert("Please enter valid values");
+    return;
+  }
+
+  let EMI = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+
+  let totalPayment = EMI * N;
+  let totalInterest = totalPayment - P;
+
+  document.getElementById("emi").innerText =
+    "Monthly EMI: ₹" + EMI.toFixed(2);
+
+  document.getElementById("interest").innerText =
+    "Total Interest: ₹" + totalInterest.toFixed(2);
+
+  document.getElementById("total").innerText =
+    "Total Payment: ₹" + totalPayment.toFixed(2);
 }
 
 function calculateSIP() {
