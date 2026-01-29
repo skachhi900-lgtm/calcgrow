@@ -94,13 +94,14 @@ function calculatePercent() {
     }
 }
 
-/* --- YOUTUBE ADVANCED LOGIC --- */
+/* --- YOUTUBE REAL API LOGIC --- */
 
-// Global Variables
+// 🔴 APNI API KEY YAHAN PASTE KARO 🔴
+const YOUTUBE_API_KEY = 'AIzaSyB3e5jwd1Y-5fTWH2w4u62eO-_wVqYDJx0'; 
+
 let currentCurrency = "$";
-let exchangeRate = 1; // 1 USD
+let exchangeRate = 1;
 
-// 1. Tab Switcher
 function switchTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -108,74 +109,71 @@ function switchTab(tabName) {
     event.currentTarget.classList.add('active');
 }
 
-// 2. Search & Simulate Channel Data
-function searchChannel() {
-    const input = document.getElementById('ytInput').value;
-    if(!input) return alert("Please enter a Link or Handle!");
+// 1. FETCH REAL DATA
+async function fetchRealData() {
+    let input = document.getElementById('ytInput').value.trim();
+    if (!input) return alert("Please enter a handle (e.g. @MrBeast)");
 
-    // Show Loading
-    document.getElementById('channelName').innerText = "Searching...";
-    
-    setTimeout(() => {
-        // Fake Data Simulation
-        document.getElementById('channelName').innerText = input.includes('@') ? input : "YouTube Creator";
-        document.getElementById('subCount').innerText = "Subscribers: " + Math.floor(Math.random() * 500) + "K (Estimated)";
-        document.getElementById('channelLogo').src = "https://cdn-icons-png.flaticon.com/512/1384/1384060.png"; // Generic YT Logo
-        
-        // Show the Dashboard
-        document.getElementById('dashboardResults').style.display = 'block';
-        calculateEarnings(); // Auto calculate based on default views
-    }, 1000);
+    // Handle se 'forHandle' use hota hai API me
+    // Agar user ne '@' nahi lagaya to hum laga denge
+    if (!input.startsWith('@')) input = '@' + input;
+
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${input}&key=${YOUTUBE_API_KEY}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+            const channel = data.items[0];
+            
+            // UI Update karo Real Data se
+            document.getElementById('channelName').innerText = channel.snippet.title;
+            document.getElementById('channelLogo').src = channel.snippet.thumbnails.medium.url;
+            
+            // Subscriber Count Format (e.g. 1000000 -> 1M)
+            let subs = channel.statistics.subscriberCount;
+            if(subs > 1000000) subs = (subs/1000000).toFixed(1) + "M";
+            else if(subs > 1000) subs = (subs/1000).toFixed(1) + "K";
+            
+            document.getElementById('subCount').innerText = "Subscribers: " + subs;
+
+            // Show Dashboard
+            document.getElementById('dashboardResults').style.display = 'block';
+            calculateEarnings(); // Default calculation
+        } else {
+            alert("Channel not found! Check spelling.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("API Error! Check Key or Quota.");
+    }
 }
 
-// 3. Currency Changer
+// 2. EARNINGS MATH
+function calculateEarnings() {
+    let views = document.getElementById('ytViews').value;
+    let rpm = document.getElementById('ytRpm').value;
+    
+    if(!views) views = 0;
+    
+    let daily = (views / 1000) * rpm * exchangeRate;
+    
+    document.getElementById('valDaily').innerText = currentCurrency + daily.toFixed(0);
+    document.getElementById('valMonthly').innerText = currentCurrency + (daily * 30).toFixed(0);
+    document.getElementById('valYearly').innerText = currentCurrency + (daily * 365).toLocaleString();
+}
+
+// 3. CURRENCY
 function changeCurrency() {
     const curr = document.getElementById('currencySelector').value;
     if(curr === "USD") { currentCurrency = "$"; exchangeRate = 1; }
-    else if(curr === "INR") { currentCurrency = "₹"; exchangeRate = 83; } // Approx rate
-    else if(curr === "EUR") { currentCurrency = "€"; exchangeRate = 0.92; }
-    
-    calculateEarnings(); // Recalculate with new currency
+    else if(curr === "INR") { currentCurrency = "₹"; exchangeRate = 84; }
+    calculateEarnings();
 }
 
-// 4. MAIN EARNINGS CALCULATOR
-function calculateEarnings() {
-    let views = parseFloat(document.getElementById('ytViews').value);
-    let rpm = parseFloat(document.getElementById('ytRpm').value);
-
-    if(!views) views = 10000; // Default fallback
-
-    // Math: (Views / 1000) * RPM * ExchangeRate
-    const daily = (views / 1000) * rpm * exchangeRate;
-    const weekly = daily * 7;
-    const monthly = daily * 30;
-    const yearly = daily * 365;
-
-    // Update Text
-    document.getElementById('valDaily').innerText = currentCurrency + daily.toFixed(0);
-    document.getElementById('valWeekly').innerText = currentCurrency + weekly.toFixed(0);
-    document.getElementById('valMonthly').innerText = currentCurrency + monthly.toFixed(0);
-    document.getElementById('valYearly').innerText = currentCurrency + yearly.toLocaleString();
-
-    // Update Bars (Visuals)
-    document.getElementById('barDaily').style.height = "20%";
-    document.getElementById('barWeekly').style.height = "40%";
-    document.getElementById('barMonthly').style.height = "70%";
-    document.getElementById('barYearly').style.height = "100%";
-}
-
-// 5. TRANSCRIPT GENERATOR (Simulation)
+// 4. TRANSCRIPT (Demo - Real requires Backend)
 function generateTranscript() {
-    const url = document.getElementById('videoUrl').value;
-    const box = document.getElementById('transcriptText');
-    
-    if(!url) return alert("Paste a video link!");
-
-    box.innerText = "Fetching transcript...";
-    
-    setTimeout(() => {
-        box.innerHTML = `<strong>[00:00]</strong> Hello everyone, welcome back to the channel.\n\n<strong>[00:05]</strong> Today we are discussing how to grow on YouTube.\n\n<strong>[00:15]</strong> Make sure to like and subscribe for more tools.\n\n(Note: Real-time full transcript generation requires a backend server. This is a demo of how the text would appear.)`;
-    }, 1500);
+    document.getElementById('transcriptText').innerText = "Fetching transcript...\n(Note: Real transcripts require a backend server. This is a demo view.)";
 }
-
 
