@@ -3,100 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcGrow - All Smart Calculators</title>
+    <title>CalcGrow - Free Online Calculators</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="container nav-content">
-            <a href="index.html" class="logo">CalcGrow.</a>
-            <div class="nav-links">
-                <a href="#all-tools">Calculators</a>
-                <a href="about.html">About</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <div class="container">
-            <h1>Smart Calculators for <br>Business & Life</h1>
-            <p>10+ Free tools trusted by users worldwide.</p>
-            <a href="#all-tools" class="cta-btn">Start Calculating</a>
-        </div>
+    <header class="site-header">
+        <div class="logo">CalcGrow</div>
+        <nav>
+            <a href="#popular">Popular</a>
+            <a href="#finance">Finance</a>
+            <a href="about.html">About</a>
+        </nav>
     </header>
 
-    <main id="all-tools" class="container">
-        
-        <h2 class="section-title">🚀 Social Media Growth</h2>
-        <div class="grid">
-            <a href="youtube.html" class="card">
-                <span class="card-icon">▶️</span>
-                <h3>YouTube Earnings</h3>
-                <p>Estimate daily ad revenue.</p>
-            </a>
-            <a href="instagram.html" class="card">
-                <span class="card-icon">📸</span>
-                <h3>Instagram Rates</h3>
-                <p>Calculate influencer post value.</p>
-            </a>
+    <section class="hero">
+        <h1>Make Smarter Decisions Fast</h1>
+        <p>Free calculators for Finance, Health & Social Media growth.</p>
+        <div class="hero-buttons">
+            <a href="youtube.html" class="btn-primary">YouTube Earnings</a>
+            <a href="emi.html" class="btn-secondary">Check Loan EMI</a>
         </div>
+    </section>
 
-        <h2 class="section-title">💰 Finance & Money</h2>
-        <div class="grid">
-            <a href="emi.html" class="card">
-                <span class="card-icon">🏠</span>
+    <section id="popular" class="section-pad">
+        <h2 class="section-title">Most Used Tools</h2>
+        <div class="card-grid">
+            
+            <a class="card" href="youtube.html">
+                <div class="icon">▶️</div>
+                <h3>YouTube Calculator</h3>
+                <p>Estimate earnings per 1M views.</p>
+            </a>
+
+            <a class="card" href="emi.html">
+                <div class="icon">🏠</div>
                 <h3>EMI Calculator</h3>
-                <p>Home & Car loan planner.</p>
+                <p>Plan your home or car loan.</p>
             </a>
-            <a href="sip.html" class="card">
-                <span class="card-icon">📈</span>
+
+            <a class="card" href="sip.html">
+                <div class="icon">📈</div>
                 <h3>SIP Calculator</h3>
-                <p>Mutual fund returns estimator.</p>
+                <p>Calculate mutual fund returns.</p>
             </a>
-            <a href="gst.html" class="card">
-                <span class="card-icon">🧾</span>
+
+             <a class="card" href="gst.html">
+                <div class="icon">🧾</div>
                 <h3>GST Calculator</h3>
-                <p>Add or remove tax instantly.</p>
-            </a>
-            <a href="fd.html" class="card">
-                <span class="card-icon">🏦</span>
-                <h3>FD Calculator</h3>
-                <p>Fixed Deposit maturity check.</p>
+                <p>Calculate GST tax instantly.</p>
             </a>
         </div>
+    </section>
 
-        <h2 class="section-title">🛠️ Daily Life Utilities</h2>
-        <div class="grid">
-            <a href="age.html" class="card">
-                <span class="card-icon">🎂</span>
-                <h3>Age Calculator</h3>
-                <p>Find exact age in years/days.</p>
+    <section id="finance" class="section-pad bg-light">
+        <h2 class="section-title">All Calculators</h2>
+        <div class="card-grid">
+            
+            <a class="card simple" href="fd.html">
+                <h3>💰 FD Calculator</h3>
+                <p>Fixed Deposit returns</p>
             </a>
-            <a href="bmi.html" class="card">
-                <span class="card-icon">💪</span>
-                <h3>BMI Calculator</h3>
-                <p>Check health & fitness score.</p>
+            <a class="card simple" href="discount.html">
+                <h3>🏷️ Discount Calc</h3>
+                <p>Sale price calculator</p>
             </a>
-            <a href="discount.html" class="card">
-                <span class="card-icon">🏷️</span>
-                <h3>Discount Calc</h3>
-                <p>Calculate sale price & savings.</p>
+
+            <a class="card simple" href="bmi.html">
+                <h3>❤️ BMI Calculator</h3>
+                <p>Check body mass index</p>
             </a>
-            <a href="percentage.html" class="card">
-                <span class="card-icon">％</span>
-                <h3>Percentage</h3>
-                <p>Simple math solutions.</p>
+            <a class="card simple" href="age.html">
+                <h3>🎂 Age Calculator</h3>
+                <p>Calculate exact age</p>
             </a>
+
+            <a class="card simple" href="instagram.html">
+                <h3>📸 Instagram Tools</h3>
+                <p>Growth calculators</p>
+            </a>
+            <a class="card simple" href="percentage.html">
+                <h3>➗ Percentage</h3>
+                <p>Simple math solver</p>
+            </a>
+
         </div>
-
-    </main>
+    </section>
 
     <footer>
-        <div class="container">
-            <p>© 2026 CalcGrow.com</p>
+        <h3>CalcGrow</h3>
+        <p>© 2026 CalcGrow. Simple tools for everyone.</p>
+        <div class="footer-links">
+            <a href="Privacy.html">Privacy Policy</a>
+            <a href="about.html">About Us</a>
         </div>
     </footer>
-</body>
+
+</bo
+    dy>
 </html>
