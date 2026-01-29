@@ -93,3 +93,89 @@ function calculatePercent() {
         
     }
 }
+
+/* --- YOUTUBE ADVANCED LOGIC --- */
+
+// Global Variables
+let currentCurrency = "$";
+let exchangeRate = 1; // 1 USD
+
+// 1. Tab Switcher
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+// 2. Search & Simulate Channel Data
+function searchChannel() {
+    const input = document.getElementById('ytInput').value;
+    if(!input) return alert("Please enter a Link or Handle!");
+
+    // Show Loading
+    document.getElementById('channelName').innerText = "Searching...";
+    
+    setTimeout(() => {
+        // Fake Data Simulation
+        document.getElementById('channelName').innerText = input.includes('@') ? input : "YouTube Creator";
+        document.getElementById('subCount').innerText = "Subscribers: " + Math.floor(Math.random() * 500) + "K (Estimated)";
+        document.getElementById('channelLogo').src = "https://cdn-icons-png.flaticon.com/512/1384/1384060.png"; // Generic YT Logo
+        
+        // Show the Dashboard
+        document.getElementById('dashboardResults').style.display = 'block';
+        calculateEarnings(); // Auto calculate based on default views
+    }, 1000);
+}
+
+// 3. Currency Changer
+function changeCurrency() {
+    const curr = document.getElementById('currencySelector').value;
+    if(curr === "USD") { currentCurrency = "$"; exchangeRate = 1; }
+    else if(curr === "INR") { currentCurrency = "₹"; exchangeRate = 83; } // Approx rate
+    else if(curr === "EUR") { currentCurrency = "€"; exchangeRate = 0.92; }
+    
+    calculateEarnings(); // Recalculate with new currency
+}
+
+// 4. MAIN EARNINGS CALCULATOR
+function calculateEarnings() {
+    let views = parseFloat(document.getElementById('ytViews').value);
+    let rpm = parseFloat(document.getElementById('ytRpm').value);
+
+    if(!views) views = 10000; // Default fallback
+
+    // Math: (Views / 1000) * RPM * ExchangeRate
+    const daily = (views / 1000) * rpm * exchangeRate;
+    const weekly = daily * 7;
+    const monthly = daily * 30;
+    const yearly = daily * 365;
+
+    // Update Text
+    document.getElementById('valDaily').innerText = currentCurrency + daily.toFixed(0);
+    document.getElementById('valWeekly').innerText = currentCurrency + weekly.toFixed(0);
+    document.getElementById('valMonthly').innerText = currentCurrency + monthly.toFixed(0);
+    document.getElementById('valYearly').innerText = currentCurrency + yearly.toLocaleString();
+
+    // Update Bars (Visuals)
+    document.getElementById('barDaily').style.height = "20%";
+    document.getElementById('barWeekly').style.height = "40%";
+    document.getElementById('barMonthly').style.height = "70%";
+    document.getElementById('barYearly').style.height = "100%";
+}
+
+// 5. TRANSCRIPT GENERATOR (Simulation)
+function generateTranscript() {
+    const url = document.getElementById('videoUrl').value;
+    const box = document.getElementById('transcriptText');
+    
+    if(!url) return alert("Paste a video link!");
+
+    box.innerText = "Fetching transcript...";
+    
+    setTimeout(() => {
+        box.innerHTML = `<strong>[00:00]</strong> Hello everyone, welcome back to the channel.\n\n<strong>[00:05]</strong> Today we are discussing how to grow on YouTube.\n\n<strong>[00:15]</strong> Make sure to like and subscribe for more tools.\n\n(Note: Real-time full transcript generation requires a backend server. This is a demo of how the text would appear.)`;
+    }, 1500);
+}
+
+
