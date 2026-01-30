@@ -3,11 +3,6 @@ function calculateEMI() {
   let R = document.getElementById("rate").value / 12 / 100;
   let N = document.getElementById("time").value * 12;
 
-  if (!P || !R || !N) {
-    document.getElementById("result").innerText = "Please enter all values";
-    return;
-  }
-
   let EMI = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
 
   let totalPayment = EMI * N;
@@ -22,3 +17,4 @@ function calculateEMI() {
   document.getElementById("total").innerText =
     "Total Payment: ₹" + totalPayment.toFixed(2);
 }
+  
