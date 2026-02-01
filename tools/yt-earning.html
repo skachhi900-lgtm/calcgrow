@@ -10,11 +10,10 @@
     <link rel="icon" href="../icon.png" type="image/png">
 
     <style>
-        /* WORLD CLASS DASHBOARD CSS */
+        /* DASHBOARD CSS (SAME AS BEFORE + NEW TWEAKS) */
         :root {
             --yt-red: #FF0000;
             --yt-dark: #0f0f0f;
-            --yt-card: #ffffff;
             --yt-text: #0f0f0f;
             --yt-gray: #606060;
         }
@@ -89,6 +88,7 @@
             outline: none;
             transition: 0.3s;
             box-sizing: border-box;
+            background: white;
         }
         .modern-input:focus { border-color: var(--yt-red); }
         
@@ -98,6 +98,7 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--yt-gray);
+            z-index: 10;
         }
 
         .analyze-btn {
@@ -167,19 +168,6 @@
             position: relative;
             overflow: hidden;
         }
-        .big-total::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-        @keyframes shine { 0% {top: -50%; left: -50%;} 100% {top: 100%; left: 100%;} }
-
     </style>
 </head>
 
@@ -204,11 +192,22 @@
             </h2>
             <div class="input-group">
                 <i class="fa-solid fa-magnifying-glass input-icon"></i>
-                <input type="text" id="channelInput" class="modern-input" placeholder="Enter channel URL or handle (e.g. @MrBeast)">
+                <input type="text" id="channelInput" class="modern-input" placeholder="Enter handle (e.g. @MrBeast)">
             </div>
             <button onclick="analyzeChannel()" class="analyze-btn">Fetch Data</button>
 
             <div style="margin: 20px 0; text-align: center; color: #aaa;">— OR ESTIMATE MANUALLY —</div>
+
+            <label>Select Currency</label>
+            <div class="input-group">
+                <i class="fa-solid fa-coins input-icon"></i>
+                <select id="currencySelect" class="modern-input" onchange="reCalculate()">
+                    <option value="USD" selected>🇺🇸 USD ($)</option>
+                    <option value="INR">🇮🇳 INR (₹)</option>
+                    <option value="EUR">🇪🇺 EUR (€)</option>
+                    <option value="GBP">🇬🇧 GBP (£)</option>
+                </select>
+            </div>
 
             <label>Daily Views: <span id="viewsVal" style="color: red; font-weight: bold;">10,000</span></label>
             <input type="range" id="viewSlider" class="range-slider" min="1000" max="10000000" step="1000" value="10000" oninput="manualUpdate(this.value)">
@@ -217,11 +216,10 @@
             <div class="input-group">
                 <i class="fa-solid fa-layer-group input-icon"></i>
                 <select id="nicheSelect" class="modern-input" onchange="reCalculate()">
-                    <option value="0.5">Shorts / Memes ($0.50 RPM)</option>
-                    <option value="1.5">Vlogs / Entertainment ($1.50 RPM)</option>
-                    <option value="3.0" selected>Tech / Education ($3.00 RPM)</option>
-                    <option value="8.0">Finance / Business ($8.00 RPM)</option>
-                    <option value="12.0">Crypto / Insurance ($12.00 RPM)</option>
+                    <option value="0.5">Shorts / Memes (Low RPM)</option>
+                    <option value="1.5">Vlogs / Entertainment (Avg RPM)</option>
+                    <option value="3.0" selected>Tech / Education (High RPM)</option>
+                    <option value="8.0">Finance / Business (Pro RPM)</option>
                 </select>
             </div>
         </div>
