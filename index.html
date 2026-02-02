@@ -3,160 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcGrow - The Ultimate Creator OS</title>
-    <meta name="description" content="All-in-one growth tools for YouTube, Instagram & Finance.">
+    <title>CalcGrow - The Ultimate Creator Ecosystem</title>
+    <meta name="description" content="Join 50,000+ Creators using CalcGrow to analyze revenue.">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="icon" href="icon.png" type="image/png">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* Special Styles for Social Grid */
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Smaller, tighter cards */
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-            text-decoration: none;
-            color: #333;
-            border: 1px solid #eee;
+        /* --- GLOBAL THEME --- */
+        :root {
+            --primary: #FF0000;
+            --dark-bg: #0f0f0f;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-light: #666;
+            --glass: rgba(255, 255, 255, 0.95);
+            --border: rgba(0,0,0,0.05);
+            --shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
-        .social-card:hover { transform: translateY(-5px); }
-        
-        /* Brand Colors */
-        .yt-brand { color: #ff0000; border-top: 4px solid #ff0000; }
-        .insta-brand { color: #E1306C; border-top: 4px solid #E1306C; } /* Insta Pink */
-        .fb-brand { color: #1877F2; border-top: 4px solid #1877F2; } /* FB Blue */
-        .snap-brand { color: #FFFC00; border-top: 4px solid #FFFC00; background: #fff; } /* Snap Yellow */
-        .snap-brand i { text-shadow: 0 0 2px #000; color: white; } /* Outline for visibility */
-        
-        .badge {
-            background: #eef2f7; color: #555; padding: 2px 8px; 
-            border-radius: 4px; font-size: 0.7rem; font-weight: bold;
+        /* DARK MODE VARIABLES */
+        body.dark-mode {
+            --light-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-light: #aaaaaa;
+            --glass: rgba(30, 30, 30, 0.95);
+            --border: rgba(255,255,255,0.1);
+            --shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        /* HEADER ACTIONS (Login + Menu) */
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        
+        .login-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-btn:hover { background: var(--primary); color: white; }
+
+        .menu-btn {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .menu-btn:hover { color: var(--primary); }
+
+        /* --- SIDEBAR MENU (New Feature) --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; /* Hidden initially */
+            width: 280px;
+            height: 100%;
+            background: var(--card-bg);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.active { right: 0; }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+        .close-btn { font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+
+        /* Profile Section in Menu */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .avatar {
+            width: 50px; height: 50px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: #888;
+        }
+
+        /* Menu Links */
+        .menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+        .menu-link:hover { color: var(--primary); }
+
+        /* Toggles (Dark Mode / Notif) */
+        .toggle-switch {
+            width: 40px; height: 20px;
+            background: #ccc;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 16px; height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px; left: 2px;
+            transition: 0.3s;
+        }
+        .toggle-active { background: var(--primary); }
+        .toggle-active::before { transform: translateX(20px); }
+
+        /* OVERLAY (Background blur when menu opens) */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+        .overlay.active { display: block; }
+
+        /* --- LOGIN MODAL --- */
+        .login-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--card-bg); padding: 40px;
+            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            z-index: 3000; width: 90%; max-width: 400px;
+            text-align: center; display: none;
+        }
+        .login-modal.active { display: block; animation: popIn 0.3s ease; }
+        @keyframes popIn { from {opacity: 0; transform: translate(-50%, -40%);} to {opacity: 1; transform: translate(-50%, -50%);} }
+
+        /* --- HERO SECTION (Existing Code) --- */
+        .hero-section {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: white;
+            padding: 80px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 50px;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg-icon { position: absolute; opacity: 0.1; font-size: 15rem; z-index: 0; animation: floatIcon 10s infinite alternate; }
+        .icon-yt { top: -50px; right: -50px; color: red; }
+        .icon-money { bottom: -50px; left: -50px; color: green; animation-delay: 2s; }
+        @keyframes floatIcon { from {transform: translateY(0) rotate(0deg);} to {transform: translateY(20px) rotate(10deg);} }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-title { font-size: 3.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 20px; background: linear-gradient(to right, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-sub { font-size: 1.2rem; color: #aaa; margin-bottom: 40px; line-height: 1.6; }
+        .cta-btn { background: var(--primary); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4); }
+        .hero-img { width: 100%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s; }
+        .hero-img:hover { transform: perspective(1000px) rotateY(0deg); }
+
+        /* Stats & Tools */
+        .stats-strip { background: black; color: white; display: flex; justify-content: space-around; padding: 30px 5%; flex-wrap: wrap; gap: 20px; text-align: center; }
+        .section-title { text-align: center; margin-top: 80px; margin-bottom: 40px; }
+        .tools-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 20px; padding: 30px; text-decoration: none; color: var(--text-main);
+            transition: all 0.3s ease; border: 1px solid var(--border);
+            display: flex; flex-direction: column; align-items: flex-start;
+        }
+        .tool-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--primary); }
+        .tool-icon { font-size: 2.5rem; margin-bottom: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #f8f9fa; }
+        .yt-card .tool-icon { color: red; background: #fff0f0; }
+        .insta-card .tool-icon { color: #E1306C; background: #fff0f5; }
+        .fb-card .tool-icon { color: #1877F2; background: #eef7ff; }
+        .finance-card .tool-icon { color: #00C853; background: #e8f5e9; }
+
+        @media (max-width: 768px) { .hero-section { grid-template-columns: 1fr; text-align: center; padding-top: 40px; } .hero-img { display: none; } }
     </style>
 </head>
 
 <body>
 
+    <div class="overlay" onclick="closeMenu()"></div>
+
     <header class="header">
-        <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
-            <img src="icon.png" alt="CalcGrow Logo" style="height: 40px; width: auto;">
-            <div>
-                <h2 style="margin:0; line-height: 1;">CalcGrow</h2>
-                <small style="font-size: 0.7rem; color: #666;">Creator OS v1.0</small>
-            </div>
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-calculator" style="color: var(--primary);"></i> CalcGrow
+        </a>
+        
+        <div class="header-actions">
+            <button class="login-btn" onclick="toggleLogin()">Login</button>
+            
+            <i class="fa-solid fa-bars menu-btn" onclick="openMenu()"></i>
         </div>
     </header>
 
-    <section class="hero" style="padding: 60px 20px;">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <span style="background: #ffebeb; color: #ff0000; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">
-                <i class="fa-brands fa-youtube"></i> #1 Tool for Creators
-            </span>
-            <h1 style="font-size: 2.8rem; margin-top: 15px; line-height: 1.2;">Dominate Your <br><span style="color: #ff0000;">Digital Empire</span></h1>
-            <p style="font-size: 1.1rem; color: #555;">Advanced analytics & earnings prediction for YouTube, Instagram & Facebook.</p>
-            
-            <a href="tools/yt-earning.html" class="btn-primary" style="font-size: 1.2rem; padding: 15px 40px; margin-top: 20px; display: inline-block;">
-                <i class="fa-solid fa-rocket"></i> Launch YouTube Studio
-            </a>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span style="font-weight: 800; font-size: 1.2rem;">Menu</span>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeMenu()"></i>
         </div>
-    </section>
 
-    <section id="social" style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-        <h3 style="color: #444; border-left: 4px solid #333; padding-left: 10px;">Social Growth Tools</h3>
-        
-        <div class="social-grid">
-            <a href="tools/yt-earning.html" class="social-card yt-brand">
-                <i class="fa-brands fa-youtube fa-3x" style="color: #ff0000;"></i>
-                <h4 style="margin: 10px 0 5px;">YouTube</h4>
-                <span class="badge">Analytics</span>
-            </a>
-
-            <a href="instagram.html" class="social-card insta-brand">
-                <i class="fa-brands fa-instagram fa-3x" style="color: #E1306C;"></i>
-                <h4 style="margin: 10px 0 5px;">Instagram</h4>
-                <span class="badge">Engagement</span>
-            </a>
-
-            <a href="facebook.html" class="social-card fb-brand">
-                <i class="fa-brands fa-facebook fa-3x" style="color: #1877F2;"></i>
-                <h4 style="margin: 10px 0 5px;">Facebook</h4>
-                <span class="badge">Ads Calc</span>
-            </a>
-
-            <a href="#" onclick="alert('Snapchat Tools Coming Soon!')" class="social-card" style="border-top: 4px solid #FFFC00;">
-                <i class="fa-brands fa-snapchat fa-3x" style="color: #000;"></i> <h4 style="margin: 10px 0 5px;">Snapchat</h4>
-                <span class="badge">Streaks</span>
-            </a>
-        </div>
-    </section>
-
-    <section id="tools" style="background: #f8f9fa; padding: 40px 20px; margin-top: 40px;">
-        <div style="max-width: 1000px; margin: 0 auto;">
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: #444; border-left: 4px solid #28a745; padding-left: 10px;">Wealth & Utilities</h3>
-                <a href="finance.html" style="color: #007bff; text-decoration: none;">View All &rarr;</a>
-            </div>
-
-            <div class="card-grid">
-                
-                <a class="card" href="finance.html">
-                    <div style="background: #e3f2fd; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                        <i class="fa-solid fa-coins" style="color: #007bff;"></i>
-                    </div>
-                    <h3>Finance Hub</h3>
-                    <p>SIP, GST, EMI & Crypto.</p>
-                </a>
-
-                <a class="card" href="discount.html">
-                    <div style="background: #fff3cd; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                        <i class="fa-solid fa-tags" style="color: #ffc107;"></i>
-                    </div>
-                    <h3>Smart Shopping</h3>
-                    <p>Discount & Offers Calc.</p>
-                </a>
-
-                <a class="card" href="bmi.html">
-                    <div style="background: #d4edda; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                        <i class="fa-solid fa-heart-pulse" style="color: #28a745;"></i>
-                    </div>
-                    <h3>Health</h3>
-                    <p>BMI & Fitness Metrics.</p>
-                </a>
-
-                <a class="card" href="age.html">
-                    <div style="background: #f8d7da; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                        <i class="fa-solid fa-calendar-days" style="color: #dc3545;"></i>
-                    </div>
-                    <h3>Age & Time</h3>
-                    <p>Date difference & Age.</p>
-                </a>
-
+        <div class="user-profile">
+            <div class="avatar"><i class="fa-solid fa-user"></i></div>
+            <div>
+                <div style="font-weight: 600;">Guest User</div>
+                <small style="color: var(--text-light);">Sign in to sync</small>
             </div>
         </div>
+
+        <div class="menu-link">
+            <span><i class="fa-solid fa-bell" style="margin-right: 10px;"></i> Notifications</span>
+            <div class="toggle-switch" onclick="this.classList.toggle('toggle-active')"></div>
+        </div>
+
+        <div class="menu-link">
+            <span><i class="fa-solid fa-moon" style="margin-right: 10px;"></i> Dark Mode</span>
+            <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
+        </div>
+
+        <a href="#" class="menu-link"><i class="fa-solid fa-gear" style="margin-right: 10px;"></i> Settings</a>
+        <a href="about.html" class="menu-link"><i class="fa-solid fa-circle-info" style="margin-right: 10px;"></i> About Us</a>
+    </div>
+
+    <div class="login-modal" id="loginModal">
+        <i class="fa-brands fa-google" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+        <h2>Welcome Back</h2>
+        <p style="color: var(--text-light); margin-bottom: 30px;">Sign in to save your analytics history.</p>
+        <button class="cta-btn" style="width: 100%;" onclick="toggleLogin()">Continue with Google</button>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #999; cursor: pointer;" onclick="toggleLogin()">Close</p>
+    </div>
+
+    <section class="hero-section">
+        <i class="fa-brands fa-youtube hero-bg-icon icon-yt"></i>
+        <i class="fa-solid fa-sack-dollar hero-bg-icon icon-money"></i>
+
+        <div class="hero-content">
+            <div style="background: rgba(255,255,255,0.1); display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2);">
+                🚀 Trusted by 50,000+ Creators
+            </div>
+            <h1 class="hero-title">Dominate Your <br> Digital Empire.</h1>
+            <p class="hero-sub">The all-in-one operating system for Creators. Analyze revenue, track growth, and master your finances.</p>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <a href="tools/yt-earning.html" class="cta-btn">Start Analyzing</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dashboard" class="hero-img">
+        </div>
     </section>
 
-    <footer style="margin-top: 0;">
-        <p>&copy; 2026 CalcGrow. Built for the World's Creators.</p>
-        <nav>
-            <a href="privacy.html">Privacy</a>
-            <a href="about.html">About</a>
-        </nav>
+    <section class="stats-strip">
+        <div class="stat-item"><h3>5M+</h3><p>Channels Analyzed</p></div>
+        <div class="stat-item"><h3>$200M+</h3><p>Revenue Estimated</p></div>
+        <div class="stat-item"><h3>100%</h3><p>Privacy Safe</p></div>
+    </section>
+
+    <div class="section-title">
+        <h2>Your Growth Toolkit</h2>
+        <p style="color: var(--text-light);">Select a tool to begin your journey.</p>
+    </div>
+
+    <div class="tools-container">
+        <a href="tools/yt-earning.html" class="tool-card yt-card">
+            <div class="tool-icon"><i class="fa-brands fa-youtube"></i></div>
+            <h3>YouTube Studio</h3>
+            <p>Advanced revenue estimation & niche analysis.</p>
+        </a>
+
+        <a href="instagram.html" class="tool-card insta-card">
+            <div class="tool-icon"><i class="fa-brands fa-instagram"></i></div>
+            <h3>Instagram Stats</h3>
+            <p>Calculate engagement rates and sponsored earnings.</p>
+        </a>
+
+        <a href="facebook.html" class="tool-card fb-card">
+            <div class="tool-icon"><i class="fa-brands fa-facebook"></i></div>
+            <h3>Facebook Ads</h3>
+            <p>Check monetization eligibility for Reels.</p>
+        </a>
+
+        <a href="finance.html" class="tool-card finance-card">
+            <div class="tool-icon"><i class="fa-solid fa-chart-pie"></i></div>
+            <h3>Finance Hub</h3>
+            <p>Plan your wealth. SIP, EMI & Crypto tools.</p>
+        </a>
+    </div>
+
+    <footer style="background: var(--dark-bg); color: white; padding: 60px 5%; margin-top: 100px; text-align: center;">
+        <p>&copy; 2026 CalcGrow Inc. All rights reserved.</p>
     </footer>
 
-    
+    <script>
+        // 1. MENU LOGIC
+        function openMenu() {
+            document.getElementById('sidebar').classList.add('active');
+            document.querySelector('.overlay').classList.add('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.querySelector('.overlay').classList.remove('active');
+        }
+
+        // 2. LOGIN POPUP LOGIC
+        function toggleLogin() {
+            const modal = document.getElementById('loginModal');
+            const overlay = document.querySelector('.overlay');
+            
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+                overlay.classList.remove('active');
+            } else {
+                modal.style.display = 'block';
+                overlay.classList.add('active');
+            }
+        }
+
+        // 3. DARK MODE LOGIC (With Memory)
+        function toggleTheme() {
+            const body = document.body;
+            const toggle = document.getElementById('themeToggle');
+            
+            body.classList.toggle('dark-mode');
+            toggle.classList.toggle('toggle-active');
+
+            // Save preference
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check saved theme on load
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').classList.add('toggle-active');
+            }
+        }
+    </script>
+
 </body>
 </html>
