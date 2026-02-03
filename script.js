@@ -169,3 +169,66 @@ function generateTranscript() {
     document.getElementById('transcriptText').innerText = "Fetching transcript...\n(Note: Real transcripts require a backend server. This is a demo view.)";
 }
 
+/* =========================================
+   WORLD CLASS GAMIFICATION SYSTEM (BETA)
+   ========================================= */
+
+// 1. STREAK SYSTEM (Daily Visits)
+function updateStreak() {
+    const today = new Date().toDateString();
+    let lastVisit = localStorage.getItem('lastVisit');
+    let streakCount = parseInt(localStorage.getItem('streakCount') || '0');
+
+    if (lastVisit === today) {
+        // Already visited today, do nothing
+    } else {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        
+        if (lastVisit === yesterday.toDateString()) {
+            // Consecutive day
+            streakCount++;
+        } else {
+            // Streak broken (but hum pehle din 1 de dete hain encourage karne ke liye)
+            streakCount = 1; 
+        }
+        
+        localStorage.setItem('lastVisit', today);
+        localStorage.setItem('streakCount', streakCount);
+    }
+    
+    // UI Update karo (Agar element exist karta hai)
+    const streakDisplay = document.getElementById('user-streak');
+    if(streakDisplay) {
+        streakDisplay.innerText = `${streakCount} Day Streak`;
+    }
+}
+
+// Run immediately
+updateStreak();
+
+// 2. FAKE LIVE LEADERBOARD (Premium Feel)
+// Kyunki abhi database nahi hai, hum 'simulation' dikhayenge jo real lage
+const creators = [
+    { name: "TechBurner Fan", revenue: "$4.2K" },
+    { name: "Vlog King", revenue: "$3.8K" },
+    { name: "Crypto Guide", revenue: "$9.1K" },
+    { name: "You", revenue: "Analyzing..." } // User ko list mein dikhana
+];
+
+function renderLeaderboard() {
+    const board = document.getElementById('leaderboard-list');
+    if(!board) return;
+
+    let html = '';
+    creators.forEach((creator, index) => {
+        let rankClass = index === 0 ? 'color: #FFD700;' : 'color: white;'; // Gold for #1
+        html += `
+        <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333;">
+            <span style="${rankClass} font-weight: bold;">#${index + 1} ${creator.name}</span>
+            <span style="color: #4CAF50;">${creator.revenue}</span>
+        </div>`;
+    });
+    board.innerHTML = h
+        tml;
+}
