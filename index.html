@@ -3,295 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CalcGrow | World's #1 Creator Growth Engine</title>
+    <title>CalcGrow | Ultimate Creator Ecosystem</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            --p-red: #FF0000;
-            --p-gold: #FFD700;
-            --p-dark: #050505;
-            --p-card: #111111;
-            --p-border: rgba(255,255,255,0.08);
-            --p-accent: #007AFF;
-            --p-insta: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            --p-fb: #1877F2;
-            --p-snap: #FFFC00;
+            --p-red: #FF0000; --p-gold: #FFD700; --p-dark: #050505;
+            --p-card: #111111; --p-border: rgba(255,255,255,0.08);
+            --p-accent: #007AFF; --p-green: #1ED760;
         }
 
-        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: var(--p-dark); color: #fff; overflow-x: hidden; }
-        
-        /* --- SIDEBAR MENU --- */
-        #sidebar {
-            position: fixed; top: 0; right: -300px; width: 300px; height: 100%;
-            background: #0a0a0a; border-left: 1px solid var(--p-border);
-            z-index: 3000; transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-            padding: 40px 20px;
-        }
-        #sidebar.active { right: 0; }
-        .side-link { display: flex; align-items: center; gap: 15px; padding: 15px; border-radius: 12px; color: #888; margin-bottom: 10px; transition: 0.3s; }
-        .side-link:hover { background: #1a1a1a; color: #fff; }
 
-        /* --- HEADER --- */
+        /* --- LOADING SCREEN / ONBOARDING --- */
+        #onboarding {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 30px;
+        }
+        .goal-box {
+            background: #111; border: 1px solid #333; padding: 25px;
+            border-radius: 20px; margin: 10px; width: 100%; max-width: 400px;
+            cursor: pointer; transition: 0.3s; text-align: center;
+        }
+        .goal-box:hover { border-color: var(--p-red); transform: scale(1.02); }
+
+        /* --- SIDEBAR --- */
+        #sidebar {
+            position: fixed; top: 0; left: -320px; width: 300px; height: 100%;
+            background: #0a0a0a; border-right: 1px solid var(--p-border);
+            z-index: 4000; transition: 0.5s cubic-bezier(0.1, 0.7, 1.0, 0.1); padding: 40px 20px;
+        }
+        #sidebar.active { left: 0; }
+        .side-link { display: flex; align-items: center; gap: 15px; padding: 18px; border-radius: 15px; color: #888; text-decoration: none; margin-bottom: 8px; transition: 0.3s; }
+        .side-link:hover { background: #1a1a1a; color: #fff; transform: translateX(5px); }
+
+        /* --- MAIN HEADER --- */
         header {
-            height: 75px; display: flex; align-items: center;
-            background: rgba(5,5,5,0.8); backdrop-filter: blur(20px);
+            height: 80px; display: flex; align-items: center;
+            background: rgba(5,5,5,0.9); backdrop-filter: blur(25px);
             position: sticky; top: 0; z-index: 2000; border-bottom: 1px solid var(--p-border);
         }
-        .header-inner { width: 100%; max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-        .brand { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .header-inner { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .brand { font-size: 26px; font-weight: 900; letter-spacing: -1.5px; }
         .brand span { color: var(--p-red); }
+
+        /* --- JOURNEY MAP CHART --- */
+        .journey-map {
+            background: #111; border-radius: 35px; padding: 35px; border: 1px solid var(--p-border);
+            margin: 40px 0; overflow-x: auto;
+        }
+        .map-timeline { display: flex; min-width: 800px; justify-content: space-between; position: relative; padding: 40px 0; }
+        .map-timeline::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #222; z-index: 1; }
+        .milestone { 
+            position: relative; z-index: 2; background: #000; border: 2px solid #333; 
+            width: 50px; height: 50px; border-radius: 50%; display: flex; 
+            justify-content: center; align-items: center; transition: 0.4s;
+        }
+        .milestone.completed { border-color: var(--p-red); color: var(--p-red); box-shadow: 0 0 15px rgba(255,0,0,0.3); }
+        .milestone span { position: absolute; top: 60px; font-size: 11px; font-weight: 800; white-space: nowrap; color: #555; }
+
+        /* --- DAILY ENGINE --- */
+        .engine-grid { display: grid; grid-template-columns: 1.2fr 1.8fr; gap: 25px; margin-top: 30px; }
+        .task-card { background: #111; border-radius: 30px; padding: 30px; border: 1px solid var(--p-border); }
         
-        /* --- TRIAL BANNER --- */
-        .trial-banner {
-            background: linear-gradient(90deg, #1a1a1a, #000);
-            padding: 10px; text-align: center; font-size: 13px; font-weight: 600;
-            border-bottom: 1px solid var(--p-border); color: var(--p-gold);
-        }
-
-        /* --- STREAK ENGINE --- */
-        .hero { padding: 40px 0; }
-        .hero-layout { display: grid; grid-template-columns: 1.8fr 1fr; gap: 25px; }
-
-        .streak-card {
-            background: linear-gradient(165deg, #121212 0%, #050505 100%);
-            border-radius: 35px; border: 1px solid var(--p-border);
-            padding: 45px; position: relative; overflow: hidden;
-        }
-        .fire-big { font-size: 80px; filter: drop-shadow(0 0 20px #FF4500); margin: 20px 0; }
-        .streak-val { font-size: 90px; font-weight: 800; line-height: 1; margin-bottom: 10px; }
-
-        /* --- TARGET ENGINE --- */
-        .target-box { background: #111; border-radius: 25px; padding: 30px; border: 1px solid var(--p-border); }
-        .target-item { 
-            display: flex; align-items: center; gap: 15px; padding: 18px; 
-            background: #1a1a1a; border-radius: 18px; margin-bottom: 15px; cursor: pointer;
-            transition: 0.3s; border: 1px solid transparent;
-        }
-        .target-item:hover { border-color: #333; transform: scale(1.02); }
-        .target-item input { width: 22px; height: 22px; accent-color: var(--p-red); }
-
-        /* --- TOOLS GRID --- */
-        .grid-master { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 40px; }
-        .tool-box {
-            background: #111; border-radius: 30px; padding: 35px; border: 1px solid var(--p-border);
-            transition: 0.4s; position: relative; overflow: hidden;
-        }
-        .tool-box:hover { transform: translateY(-10px); background: #161616; border-color: var(--p-red); }
-        .lock-badge { position: absolute; top: 25px; right: 25px; font-size: 12px; color: var(--p-gold); display: none; }
-        .is-locked .lock-badge { display: block; }
-        .is-locked { opacity: 0.7; pointer-events: none; }
-
+        /* Interactive Counter Buttons */
+        .counter-group { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 15px; border-radius: 18px; margin-bottom: 15px; }
+        .c-btn { width: 35px; height: 35px; background: #333; border: none; color: white; border-radius: 10px; cursor: pointer; }
+        .c-btn:hover { background: var(--p-red); }
+        
         /* --- PAYMENT MODAL --- */
-        .modal { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 5000; display: none; 
-            align-items: center; justify-content: center; padding: 20px;
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .price-card { 
+            background: #0f0f0f; border: 1px solid #333; border-radius: 30px; padding: 30px; width: 100%; max-width: 320px; 
+            text-align: center; transition: 0.3s;
         }
-        .modal-content { 
-            background: #0a0a0a; width: 100%; max-width: 480px; padding: 40px; 
-            border-radius: 40px; border: 1px solid var(--p-gold); text-align: center;
-        }
-        .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
-        .pay-opt { 
-            padding: 20px; border: 1px solid #222; border-radius: 20px; cursor: pointer; transition: 0.3s;
-        }
-        .pay-opt:hover, .pay-opt.active { border-color: var(--p-gold); background: rgba(255,215,0,0.05); }
+        .price-card:hover { border-color: var(--p-gold); transform: translateY(-10px); }
+        .price-card.featured { border-color: var(--p-red); background: #150505; }
 
-        /* MOBILE FIX */
-        @media (max-width: 800px) {
-            .hero-layout { grid-template-columns: 1fr; }
-            .streak-val { font-size: 70px; }
-            .streak-card { padding: 30px; }
+        /* Mobile Fixes */
+        @media (max-width: 900px) {
+            .engine-grid { grid-template-columns: 1fr; }
+            .milestone span { font-size: 9px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="trial-banner" id="trialStatus">
-        🎁 SPECIAL: YOUR 5-DAY UNLIMITED PRO ACCESS EXPIRES IN <span id="daysLeft">...</span> DAYS
+    <div id="onboarding">
+        <h1 style="font-size: 38px; margin-bottom: 10px; text-align: center;">Choose Your <span style="color:var(--p-red)">Legacy</span></h1>
+        <p style="color: #666; margin-bottom: 40px;">Select your primary platform to start the journey.</p>
+        <div class="goal-box" onclick="startApp('YouTube')">
+            <i class="fa-brands fa-youtube" style="font-size: 30px; color: red; margin-bottom: 10px;"></i>
+            <h3>YouTube King</h3>
+            <p style="font-size: 12px; color: #555;">Target: 1M Views in 365 Days</p>
+        </div>
+        <div class="goal-box" onclick="startApp('Instagram')">
+            <i class="fa-brands fa-instagram" style="font-size: 30px; color: #E1306C; margin-bottom: 10px;"></i>
+            <h3>Insta Growth Pro</h3>
+            <p style="font-size: 12px; color: #555;">Target: 100K Followers in 180 Days</p>
+        </div>
     </div>
 
-    <div id="sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-            <h2 style="font-weight: 800;">MENU</h2>
-            <i class="fa-solid fa-xmark" style="font-size: 24px; cursor: pointer;" onclick="toggleMenu()"></i>
+    <nav id="sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+            <div class="brand">CALC<span>GROW</span></div>
+            <i class="fa-solid fa-chevron-left" onclick="toggleMenu()" style="cursor:pointer"></i>
         </div>
-        <a href="#" class="side-link"><i class="fa-solid fa-house"></i> Dashboard</a>
-        <a href="#" class="side-link"><i class="fa-solid fa-user"></i> Profile</a>
-        <a href="#" class="side-link"><i class="fa-solid fa-trophy"></i> Global Leaderboard</a>
-        <a href="#" class="side-link" onclick="openPay()"><i class="fa-solid fa-crown"></i> My Subscription</a>
+        <a href="#" class="side-link" onclick="toggleMenu()"><i class="fa-solid fa-gauge"></i> My Dashboard</a>
+        <a href="#" class="side-link" onclick="openPay()"><i class="fa-solid fa-crown"></i> Premium Plans</a>
+        <a href="#" class="side-link"><i class="fa-solid fa-chart-line"></i> Growth Map</a>
+        <a href="tools/yt-earning.html" class="side-link"><i class="fa-brands fa-youtube"></i> YT Calculator</a>
+        <a href="#" class="side-link" onclick="alert('Feature Coming in Pro Version')"><i class="fa-solid fa-users"></i> Global Leaderboard</a>
         <a href="#" class="side-link"><i class="fa-solid fa-gear"></i> Settings</a>
-    </div>
+    </nav>
 
     <div class="modal" id="payModal">
-        <div class="modal-content">
-            <span style="color: var(--p-gold); font-weight: 800; font-size: 12px; letter-spacing: 2px;">CONTINUE YOUR LEGACY</span>
-            <h2 style="font-size: 32px; margin: 15px 0;">Join CalcGrow Pro</h2>
-            <p style="color: #666; font-size: 14px;">Your 5-day trial has ended. Pay $1 to unlock your data & international growth tools.</p>
-            
-            <div class="pay-grid">
-                <div class="pay-opt" onclick="selectPay(this)"><i class="fa-brands fa-google-pay" style="font-size: 30px;"></i></div>
-                <div class="pay-opt" onclick="selectPay(this)"><i class="fa-brands fa-apple-pay" style="font-size: 30px;"></i></div>
-                <div class="pay-opt" onclick="selectPay(this)"><i class="fa-solid fa-credit-card" style="font-size: 24px;"></i></div>
-                <div class="pay-opt" onclick="selectPay(this)"><i class="fa-solid fa-bolt" style="color: #1ED760;"></i> UPI</div>
+        <div style="width:100%; max-width:1100px;">
+            <div style="text-align:center; margin-bottom:40px;">
+                <h2 style="font-size:36px;">Select Your <span style="color:var(--p-gold)">Challenge</span></h2>
+                <p style="color:#666;">Invest in your consistency. Non-refundable commitment.</p>
             </div>
-
-            <button style="width: 100%; padding: 20px; border-radius: 20px; border: none; background: #fff; color: #000; font-weight: 800; font-size: 18px; cursor: pointer;" onclick="alert('Redirecting to secure gateway...')">PAY $1.00 & UNLOCK</button>
-            <p style="margin-top: 20px; color: #444; font-size: 12px;" onclick="closePay()">Back to Dashboard</p>
+            <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
+                <div class="price-card">
+                    <h4 style="color:#666;">BEGINNER</h4>
+                    <h2 style="font-size:42px; margin:15px 0;">$1<span>.00</span></h2>
+                    <ul style="list-style:none; text-align:left; font-size:13px; color:#888; margin-bottom:20px;">
+                        <li><i class="fa-solid fa-check" style="color:green"></i> 90 Days Streak Tracking</li>
+                        <li><i class="fa-solid fa-check" style="color:green"></i> Beginner Milestone Badge</li>
+                    </ul>
+                    <button style="width:100%; padding:15px; border-radius:15px; border:none; background:#333; color:white; font-weight:800; cursor:pointer;" onclick="processPay()">SELECT PLAN</button>
+                </div>
+                <div class="price-card featured">
+                    <div style="background:var(--p-red); font-size:10px; display:inline-block; padding:3px 10px; border-radius:10px; margin-bottom:10px;">MOST POPULAR</div>
+                    <h4 style="color:#ccc;">PRO CREATOR</h4>
+                    <h2 style="font-size:42px; margin:15px 0;">$2<span>.00</span></h2>
+                    <ul style="list-style:none; text-align:left; font-size:13px; color:#888; margin-bottom:20px;">
+                        <li><i class="fa-solid fa-check" style="color:green"></i> 180 Days Streak Access</li>
+                        <li><i class="fa-solid fa-check" style="color:green"></i> International Leaderboard</li>
+                    </ul>
+                    <button style="width:100%; padding:15px; border-radius:15px; border:none; background:var(--p-red); color:white; font-weight:800; cursor:pointer;" onclick="processPay()">SELECT PLAN</button>
+                </div>
+                <div class="price-card" style="border-color:var(--p-gold);">
+                    <h4 style="color:var(--p-gold);">ULTRA PRO MAX</h4>
+                    <h2 style="font-size:42px; margin:15px 0;">$3<span>.00</span></h2>
+                    <ul style="list-style:none; text-align:left; font-size:13px; color:#888; margin-bottom:20px;">
+                        <li><i class="fa-solid fa-check" style="color:green"></i> 1 Full Year Legacy</li>
+                        <li><i class="fa-solid fa-check" style="color:green"></i> All Premium Tools Unlocked</li>
+                    </ul>
+                    <button style="width:100%; padding:15px; border-radius:15px; border:none; background:var(--p-gold); color:black; font-weight:800; cursor:pointer;" onclick="processPay()">SELECT PLAN</button>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top:30px; cursor:pointer;" onclick="closePay()">Maybe later, I'm not serious yet.</p>
         </div>
     </div>
 
     <header>
         <div class="header-inner">
-            <div class="brand">
-                <div style="width: 38px; height: 38px; background: var(--p-red); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-fire-burner" style="color: #fff; font-size: 18px;"></i>
-                </div>
-                CALC<span>GROW</span>
+            <div style="display:flex; align-items:center; gap:15px;">
+                <i class="fa-solid fa-bars-staggered" style="font-size:24px; cursor:pointer" onclick="toggleMenu()"></i>
+                <div class="brand">CALC<span>GROW</span></div>
             </div>
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <button style="background: var(--p-gold); color: #000; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer;" onclick="openPay()">PRO</button>
-                <i class="fa-solid fa-bars-staggered" style="font-size: 22px; cursor: pointer;" onclick="toggleMenu()"></i>
+            <div style="display:flex; align-items:center; gap:20px;">
+                <div id="liveClock" style="font-size:12px; color:#666; font-weight:700;">00:00:00</div>
+                <button onclick="openPay()" style="background:var(--p-gold); border:none; padding:8px 15px; border-radius:10px; font-weight:800; font-size:12px; cursor:pointer;">UPGRADE 👑</button>
             </div>
         </div>
     </header>
 
-    <main class="container" style="margin-top: 30px;">
+    <main class="container">
         
-        <div style="margin-bottom: 30px; border-left: 4px solid var(--p-red); padding-left: 15px;">
-            <p id="greeting" style="color: #666; font-size: 14px; font-weight: 700;">WELCOME CREATOR,</p>
-            <h1 style="font-size: 22px;">"Consistency is the only bridge between dreams and reality."</h1>
-        </div>
-
-        <section class="hero">
-            <div class="hero-layout">
-                <div class="streak-card">
-                    <div style="color: #666; font-weight: 700; font-size: 11px; letter-spacing: 2px;">CURRENT VELOCITY</div>
-                    <div class="fire-big">🔥</div>
-                    <div class="streak-val" id="mainStreak">0</div>
-                    <p style="color: #888;">DAYS CONSECUTIVE CREATION</p>
-                    
-                    <div style="margin-top: 40px; height: 8px; background: #222; border-radius: 10px; overflow: hidden;">
-                        <div id="trialBar" style="height: 100%; width: 100%; background: var(--p-gold); transition: 1s;"></div>
-                    </div>
-                    <p style="font-size: 12px; margin-top: 10px; color: #444;">Level: Beginner Newbie</p>
+        <section class="journey-map">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <div>
+                    <h2 style="font-size:24px;">Growth Roadmap</h2>
+                    <p style="color:#555; font-size:12px;">The path from Zero to Global Creator.</p>
                 </div>
-
-                <div class="target-box">
-                    <h3 style="margin-bottom: 25px; font-size: 14px; letter-spacing: 1px; color: #666;">DAILY MISSION</h3>
-                    <div class="target-item" onclick="checkTask(this)">
-                        <input type="checkbox"> <span>Script 1 New Video</span>
-                    </div>
-                    <div class="target-item" onclick="checkTask(this)">
-                        <input type="checkbox"> <span>1 Hour Deep Editing</span>
-                    </div>
-                    <div class="target-item" onclick="checkTask(this)">
-                        <input type="checkbox"> <span>Post Across Channels</span>
-                    </div>
-                    <div class="target-item" onclick="checkTask(this)">
-                        <input type="checkbox"> <span>Analyze Analytics</span>
-                    </div>
-                    <button style="width: 100%; padding: 18px; border-radius: 18px; border: 1px solid #333; background: #1a1a1a; color: #fff; font-weight: 700; margin-top: 10px;">SUBMIT TODAY'S PROGRESS</button>
+                <div style="text-align:right;">
+                    <div style="font-size:28px; font-weight:800; color:var(--p-red);" id="daysToGo">365</div>
+                    <div style="font-size:10px; color:#666;">DAYS TO LEGACY</div>
                 </div>
+            </div>
+            
+            <div class="map-timeline">
+                <div class="milestone completed"><span>DAY 1</span><i class="fa-solid fa-flag-checkered"></i></div>
+                <div class="milestone"><span>DAY 30</span><i class="fa-solid fa-bolt"></i></div>
+                <div class="milestone"><span>DAY 90</span><i class="fa-solid fa-medal"></i></div>
+                <div class="milestone"><span>DAY 180</span><i class="fa-solid fa-rocket"></i></div>
+                <div class="milestone"><span>DAY 270</span><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="milestone"><span>DAY 365</span><i class="fa-solid fa-crown"></i></div>
             </div>
         </section>
 
-        <h2 style="font-size: 28px; font-weight: 800; margin: 50px 0 30px;">Universal Creator Toolkit</h2>
-        
-        <div class="grid-master">
-            <a href="tools/yt-earning.html" class="tool-box">
-                <i class="fa-brands fa-youtube" style="font-size: 40px; color: #FF0000; margin-bottom: 20px;"></i>
-                <h3>YouTube Engine</h3>
-                <p style="color: #555; font-size: 14px; margin-top: 10px;">AdSense, RPM & Sponsorship valuation.</p>
-            </a>
+        <div class="engine-grid">
+            <div class="task-card">
+                <h3 style="margin-bottom:25px; font-size:16px;">DAILY LOG <span id="currentGoal" style="color:var(--p-red)">- YouTube</span></h3>
+                
+                <div class="counter-group">
+                    <div><span>Long Videos</span><br><small style="font-size:10px; color:#555;">Target: 1/day</small></div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button class="c-btn" onclick="updateCount('v1', -1)">-</button>
+                        <span id="v1" style="font-weight:800; width:20px; text-align:center;">0</span>
+                        <button class="c-btn" onclick="updateCount('v1', 1)">+</button>
+                    </div>
+                </div>
 
-            <div class="tool-box pro-feature" onclick="checkAccess()">
-                <i class="fa-solid fa-lock lock-badge"></i>
-                <i class="fa-brands fa-instagram" style="font-size: 40px; color: #E1306C; margin-bottom: 20px;"></i>
-                <h3>Insta Analytics</h3>
-                <p style="color: #555; font-size: 14px; margin-top: 10px;">Engagement rate & Brand deal rates.</p>
+                <div class="counter-group">
+                    <div><span>Shorts / Reels</span><br><small style="font-size:10px; color:#555;">Target: 2/day</small></div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button class="c-btn" onclick="updateCount('v2', -1)">-</button>
+                        <span id="v2" style="font-weight:800; width:20px; text-align:center;">0</span>
+                        <button class="c-btn" onclick="updateCount('v2', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="counter-group">
+                    <div><span>Community Posts</span><br><small style="font-size:10px; color:#555;">Target: 1/day</small></div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button class="c-btn" onclick="updateCount('v3', -1)">-</button>
+                        <span id="v3" style="font-weight:800; width:20px; text-align:center;">0</span>
+                        <button class="c-btn" onclick="updateCount('v3', 1)">+</button>
+                    </div>
+                </div>
+
+                <button style="width:100%; padding:20px; border-radius:20px; border:none; background:linear-gradient(90deg, #FF0000, #990000); color:white; font-weight:800; cursor:pointer; margin-top:10px;" onclick="submitDay()">SUBMIT TODAY'S PROGRESS</button>
             </div>
 
-            <div class="tool-box pro-feature" onclick="checkAccess()">
-                <i class="fa-solid fa-lock lock-badge"></i>
-                <i class="fa-brands fa-facebook" style="font-size: 40px; color: #1877F2; margin-bottom: 20px;"></i>
-                <h3>Meta Dashboard</h3>
-                <p style="color: #555; font-size: 14px; margin-top: 10px;">Monetization & Fan valuation.</p>
-            </div>
+            <div class="task-card" style="display:flex; flex-direction:column; gap:20px;">
+                <div style="display:flex; gap:15px;">
+                    <div style="flex:1; background:#1a1a1a; padding:20px; border-radius:20px; border:1px solid #333;">
+                        <span style="font-size:10px; color:#666;">STREAK</span>
+                        <div style="font-size:32px; font-weight:800;">1 <span style="font-size:14px; color:var(--p-red)">🔥</span></div>
+                    </div>
+                    <div style="flex:1; background:#1a1a1a; padding:20px; border-radius:20px; border:1px solid #333;">
+                        <span style="font-size:10px; color:#666;">COMPLETION</span>
+                        <div style="font-size:32px; font-weight:800;">4.2<span style="font-size:14px; color:var(--p-accent)">%</span></div>
+                    </div>
+                </div>
 
-            <div class="tool-box pro-feature" onclick="checkAccess()">
-                <i class="fa-solid fa-lock lock-badge"></i>
-                <i class="fa-brands fa-snapchat" style="font-size: 40px; color: #FFFC00; margin-bottom: 20px;"></i>
-                <h3>Snap Rewards</h3>
-                <p style="color: #555; font-size: 14px; margin-top: 10px;">Spotlight revenue & Spotlight points.</p>
+                <div style="background:var(--p-card); border:1px dashed #333; padding:25px; border-radius:20px; text-align:center;">
+                    <i class="fa-solid fa-lock" style="font-size:24px; color:var(--p-gold); margin-bottom:15px;"></i>
+                    <h4>AI GROWTH PREDICTOR</h4>
+                    <p style="font-size:12px; color:#555; margin-top:10px;">Unlock Premium to see when you will hit your first 100k subscribers based on your current speed.</p>
+                    <button onclick="openPay()" style="margin-top:20px; background:none; border:1px solid var(--p-gold); color:var(--p-gold); padding:10px 20px; border-radius:10px; cursor:pointer;">ACTIVATE AI</button>
+                </div>
             </div>
         </div>
 
+        <h2 style="margin:50px 0 30px;">Universal Multi-Tool Vault</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px; margin-bottom:100px;">
+            <div class="goal-box" style="margin:0;" onclick="window.location.href='tools/yt-earning.html'">
+                <i class="fa-brands fa-youtube" style="color:red"></i><br>YouTube
+            </div>
+            <div class="goal-box" style="margin:0;" onclick="openPay()">
+                <i class="fa-brands fa-instagram" style="color:#E1306C"></i><br>Instagram
+            </div>
+            <div class="goal-box" style="margin:0;" onclick="openPay()">
+                <i class="fa-brands fa-facebook" style="color:#1877F2"></i><br>Facebook
+            </div>
+            <div class="goal-box" style="margin:0;" onclick="openPay()">
+                <i class="fa-brands fa-snapchat" style="color:yellow"></i><br>Snapchat
+            </div>
+            <div class="goal-box" style="margin:0;" onclick="openPay()">
+                <i class="fa-brands fa-tiktok"></i><br>TikTok
+            </div>
+        </div>
     </main>
 
-    <footer style="margin-top: 100px; padding: 60px 0; border-top: 1px solid var(--p-border); text-align: center; color: #444;">
-        <p>&copy; 2026 CalcGrow Global. Become the 1%.</p>
-    </footer>
-
     <script>
-        // --- 5-DAY TRIAL LOGIC ---
-        function handleTrial() {
-            const startDate = localStorage.getItem('calcGrowStartDate');
-            const today = new Date();
-            
-            if (!startDate) {
-                localStorage.setItem('calcGrowStartDate', today.toISOString());
-            }
-
-            const start = new Date(localStorage.getItem('calcGrowStartDate'));
-            const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-            const remaining = 5 - diffDays;
-
-            if (remaining <= 0) {
-                // Trial Ended
-                document.getElementById('trialStatus').innerText = "🔴 YOUR FREE ACCESS HAS EXPIRED. UPGRADE TO PRO.";
-                document.querySelectorAll('.pro-feature').forEach(el => el.classList.add('is-locked'));
-                document.getElementById('daysLeft').innerText = "0";
-                document.getElementById('trialBar').style.width = "0%";
-            } else {
-                document.getElementById('daysLeft').innerText = remaining;
-                document.getElementById('trialBar').style.width = (remaining * 20) + "%";
-            }
+        // 1. App Initialization
+        function startApp(platform) {
+            document.getElementById('onboarding').style.transition = "1s";
+            document.getElementById('onboarding').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('onboarding').style.display = "none";
+                document.getElementById('currentGoal').innerText = "- " + platform;
+            }, 1000);
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
-        // --- MENU TOGGLE ---
+        // 2. Sidebar Toggle
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
         }
 
-        // --- PAYMENT LOGIC ---
+        // 3. Counter Logic
+        function updateCount(id, val) {
+            let el = document.getElementById(id);
+            let current = parseInt(el.innerText);
+            if(current + val >= 0) el.innerText = current + val;
+        }
+
+        // 4. Progress Submission
+        function submitDay() {
+            let v1 = document.getElementById('v1').innerText;
+            if(v1 === "0") {
+                alert("Emotional Alert: You haven't finished your main video today. Don't break the chain!");
+            } else {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                alert("Legacy Secured for Today! Your rank has improved globally.");
+            }
+        }
+
+        // 5. Payment Modal
         function openPay() { document.getElementById('payModal').style.display = 'flex'; }
         function closePay() { document.getElementById('payModal').style.display = 'none'; }
-        function selectPay(el) {
-            document.querySelectorAll('.pay-opt').forEach(opt => opt.classList.remove('active'));
-            el.classList.add('active');
-        }
+        function processPay() { alert("Connecting to International Secure Gateway (Visa/UPI/PayPal)..."); }
 
-        // --- TASK CHECKER ---
-        function checkTask(el) {
-            const checkbox = el.querySelector('input');
-            checkbox.checked = !checkbox.checked;
-            el.style.background = checkbox.checked ? "#112" : "#1a1a1a";
-        }
-
-        function checkAccess() {
-            const start = new Date(localStorage.getItem('calcGrowStartDate'));
-            const diffDays = Math.floor((new Date() - start) / (1000 * 60 * 60 * 24));
-            if (diffDays >= 5) openPay();
-            else alert("Tool Loading... (You have active Trial Access)");
-        }
-
-        window.onload = handleTrial;
+        // 6. Live Clock
+        setInterval(() => {
+            let now = new Date();
+            document.getElementById('liveClock').innerText = now.toLocaleTimeString();
+        }, 1000);
     </script>
 </body>
-    </html>
+</html>
